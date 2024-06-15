@@ -83,7 +83,7 @@
     "mdast-util-to-markdown": "^2.1.0",
     "moment-timezone": "^0.5.45",
     "node-ical": "^0.17.2",
-    "obsidian": "^1.4.4",
+    "obsidian": "^1.5.7",
     "obsidian-daily-notes-interface": "^0.9.4",
     "prettier-plugin-svelte": "^3.0.3",
     "stylelint-config-clean-order": "^5.0.1",
