@@ -24,6 +24,7 @@ export class PlanEditor {
         }
 
         const { path } = await createDailyNoteIfNeeded(task.startTime);
+        // Todo: check weekly note -- createWeeklyNoteIfNeeded
         return { ...task, location: { path } };
       }),
     );
