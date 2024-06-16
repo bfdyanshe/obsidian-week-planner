@@ -1,4 +1,5 @@
-import esbuild from "esbuild";
+import os from "node:os";
+import esbuild, { build } from "esbuild";
 import process from "process";
 import builtins from "builtin-modules";
 import esbuildSvelte from "esbuild-svelte";
@@ -6,6 +7,7 @@ import sveltePreprocess from "svelte-preprocess";
 import { sassPlugin } from "esbuild-sass-plugin";
 import { replace } from "esbuild-plugin-replace";
 import fs from "node:fs";
+import {copy} from "esbuild-plugin-copy"
 
 const banner =
   `/*
@@ -14,13 +16,26 @@ if you want to view the source, please visit the github repository of this plugi
 */
 `;
 
-const prod = (process.argv[2] === "production");
+// have certain config
+const prod = (process.argv.length > 2);
+const isBuild = (process.argv[2] === "production");
+const isObsidianTest = (process.argv[2] === "obsidian-test");
+
+if (isBuild) {
+  var buildDir = "build"
+}
+else if (isObsidianTest) {
+  buildDir = os.homedir() + '\\Documents\\obsidian\\week-note-test\\.obsidian\\plugins\\obsidian-day-planner'
+}
+else {
+  buildDir = "."
+}
 
 const context = await esbuild.context({
   banner: {
     js: banner
   },
-  outdir: ".",
+  outdir: buildDir,
   entryPoints: ["src/main.ts", "src/styles.scss"],
   bundle: true,
   external: [
@@ -53,6 +68,14 @@ const context = await esbuild.context({
       include: /release-notes-modal\.ts|main\.ts/,
       changelogMd: JSON.stringify(fs.readFileSync("./CHANGELOG.md", "utf-8")),
       currentPluginVersion: JSON.stringify(JSON.parse(fs.readFileSync("./package.json", "utf-8")).version)
+    }),
+    copy({
+      resolveFrom: 'cwd',
+      assets: {
+        from: ['./manifest.json'],
+        to: [buildDir + "/manifest.json"],
+      },
+      watch: true
     })
   ]
 });

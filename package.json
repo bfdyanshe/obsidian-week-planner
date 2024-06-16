@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node esbuild.config.mjs",
     "build": "node esbuild.config.mjs production",
+    "obsidian": "node esbuild.config.mjs obsidian-test",
     "format": "eslint --fix src && stylelint --fix src/**/*.svelte && prettier --write src",
     "lint": "prettier --check src && eslint src && stylelint src/**/*.svelte && tsc --noEmit && svelte-check src/",
     "typescript": "tsc --noEmit",
@@ -74,6 +75,7 @@
     "babel": "^6.23.0",
     "babel-jest": "^29.6.4",
     "chroma-js": "^2.4.2",
+    "esbuild-plugin-copy": "^2.1.1",
     "eslint-plugin-jest": "^27.2.3",
     "fraction.js": "4.1.1",
     "immer": "^10.0.3",
